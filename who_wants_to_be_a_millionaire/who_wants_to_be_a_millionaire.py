@@ -1,5 +1,4 @@
 import random
-import random
 from threading import Timer
 
 # If user allowed 1 misstake 
