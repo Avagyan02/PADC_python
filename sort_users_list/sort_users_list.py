@@ -8,9 +8,6 @@ def writeIntoSortedFile(arr):
         sortedUsersList.writelines(userData)
 
 
-def func(e):
-    return e["fullName"]
-
 def sortUsers(arr):
     sortField = ""
     while True:
