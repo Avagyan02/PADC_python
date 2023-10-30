@@ -1,9 +1,8 @@
 import os
-from email.message import EmailMessage
+import re
 import ssl
 import smtplib
-from credentials import password
-import re
+from email.message import EmailMessage
 
 class MailProperties:
     regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
@@ -12,7 +11,9 @@ class MailProperties:
         self.mail_properties(self.regex)
 
     def mail_properties(self, regex):
-        while True:   
+
+        # mail validation
+        while True:
             mail = input('Write mail to send: ')
 
             if not re.fullmatch(regex, mail):
@@ -30,6 +31,9 @@ class MailProperties:
 class MailSend:
     email_sender = 'samvelavagyan91@gmail.com'
 
+    # add key after two-factor auth for send email
+    key = os.environ.get('MAIL_KEY')
+
     def __init__(self):
         mail_properties = MailProperties()
         self.mail_send(mail_properties, self.email_sender)
@@ -45,10 +49,5 @@ class MailSend:
         context = ssl.create_default_context()
 
         with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as smtp:
-            smtp.login(email_sender, password)
+            smtp.login(email_sender, self.key)
             smtp.sendmail(email_sender, mail_properties.to, em.as_string())
-
-
-if __name__ == '__main__':
-    MailSend()
-

@@ -12,6 +12,7 @@ class ThemeAndWords:
             "countries": ["russia", "denmark", "croatia", "argentina"]
         }
 
+    # get random theme and word
     def get_theme_and_word(self):
         self.theme, value = random.choice(list(self.themes.items()))
         self.word = random.choice(value)
@@ -35,10 +36,11 @@ class StartTheGame:
         print('Word is ', self.replace_word)
 
     def write_word_letters(self):
-        misstakesCount = 0
+        misstakes_count = 0
 
         while True:
-            if (misstakesCount == len(hangman_ui)):
+            # validation users inserted data
+            if misstakes_count == len(hangman_ui):
                 print('The word was ' + self.word)
                 print('Game over')
                 break
@@ -51,22 +53,32 @@ class StartTheGame:
 
             if letter.lower() not in self.word:
                 print("Not correct letter, try again")
-                print(hangman_ui[misstakesCount])
-                misstakesCount += 1
+                print(hangman_ui[misstakes_count])
+                misstakes_count += 1
                 continue
 
-            if letter.lower() in self.replace_word and self.word.count(letter.lower()) == self.replace_word.count(letter.lower()):
+            if (
+                    letter.lower() in self.replace_word and
+                    self.word.count(letter.lower()) == self.replace_word.count(letter.lower())
+                ):
                 print('Letter already added')
                 continue
 
-            rIndex = self.word.rfind(letter)
-            lIndex = self.word.find(letter)
+            r_index = self.word.rfind(letter)
+            l_index = self.word.find(letter)
 
-            if rIndex != lIndex:
-                self.replace_word = self.replace_word[0:lIndex * 2] + letter + self.replace_word[lIndex * 2 + 1::]
-                self.replace_word = self.replace_word[0:rIndex * 2] + letter + self.replace_word[rIndex * 2 + 1::]
+            # replace for show user his inserted letters
+            if r_index != l_index:
+                self.replace_word = (
+                    self.replace_word[0:l_index * 2] + letter + self.replace_word[l_index * 2 + 1::]
+                )
+                self.replace_word = (
+                    self.replace_word[0:r_index * 2] + letter + self.replace_word[r_index * 2 + 1::]
+                )
             else:
-                self.replace_word = self.replace_word[0:lIndex * 2] + letter + self.replace_word[lIndex * 2 + 1::]
+                self.replace_word = (
+                    self.replace_word[0:l_index * 2] + letter + self.replace_word[l_index * 2 + 1::]
+                )
 
             if self.replace_word.count('_') > 0:
                 print(self.replace_word)

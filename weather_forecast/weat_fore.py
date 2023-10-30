@@ -14,7 +14,9 @@ class WeatherApi:
     def get_weather_info(self, url):
         response = requests.get(url).json()
 
-        if ('message' in response and response['message'] == 'city not found') or self.city.isdigit():
+        if (
+                'message' in response and response['message'] == 'city not found'
+            ) or self.city.isdigit():
             print('Print valid city name')
             return
 
@@ -29,6 +31,8 @@ class WeatherApi:
         city = self.city[0].upper() + self.city[1::]
 
         print(f"Temperature in {city} is {celcius}°C or {fahrenheit}°F")
-        print(f"Temperature in {city} feels like {feels_like_celcius}°C or {feels_like_fahrenheit}°F")
+        print(
+            f"Temperature in {city} feels like {feels_like_celcius}°C or {feels_like_fahrenheit}°F"
+        )
         print(f"Humidity in {city} is {humidity}%")
         print(f"Wimd Speed in {city} is {wind_speed}m/s")
